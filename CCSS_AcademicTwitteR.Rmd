@@ -1,0 +1,225 @@
+---
+title: "CCSS academictwitteR Tutorial"
+author: "Aspen Russell"
+date: "02/14/2022"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    theme: paper
+    highlight: tango
+    toc_float: true
+---
+
+```{r setup, include=FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Before beginning, you should have the ability to run R (https://cran.r-project.org/) either in RStudio (https://www.rstudio.com/products/rstudio/) or a web-based version of R in something like Binder (https://mybinder.org/). The second pre-requisite is an approved Twitter developer account (https://cran.r-project.org/web/packages/academictwitteR/vignettes/academictwitteR-auth.html), which will let you create API keys and a bearer token which are necessary to use the API.
+
+Alright, let's get started!
+
+## Authentication + Package Install
+
+### What *are* packages?
+
+With the vanilla Twitter API V2, the commands can range from just a few lines to tens and tens of lines that involve things like importing a lot of libraries, more authentication, selecting end points, and managing less readable outputs. (see for yourself: https://github.com/twitterdev/Twitter-API-v2-sample-code).  Imagine having to do all of that every time we wanted to gather some tweets!
+
+This is where packages come in. Packages provide pre-written functions for common tasks. So, let's install one and see what it can do.
+
+First, install the "academictwitteR" R package (info here: https://cran.r-project.org/web/packages/academictwitteR/index.html). You can install packages in R in one of two ways. First, you can install in a code chunk (which is seen below) or you can use the "console" in RStudio to enter the install command. Either way works. I have commented out my install command as I already have the package installed. If you ever need to double check if RStudio has a package installed, check the "packages" tab in the bottom right next to "plots" and "help."
+
+Second, we are going to make sure our "bearer token," which is our unique ID tied to our Twitter developer account, is saved as an *environmental variable.* What this means is that instead of copy and pasting the bearer token code into this document, we will save it on our computer and reference the token within our code. This is good for two reasons. First, it means that when you post your code on a platform like GitHub or OpenScience Foundation, then you won't post your bearer code for the public to see. The second plus is that it makes it much easier to write multiple Twitter scripts. 
+
+To accomplish this, first install and load the "academictwitteR" package. Within that package, there is a function called "set_bearer()". Go ahead and run that function as seen below. Once run, the function will open up R environmental variables where you can copy and paste your token information. Restart R and you should be ready to go. If you have already done this once, then you can leave the function commented out as the token is already set!
+
+```{r message=FALSE, warning=FALSE}
+# Installs the academictwitteR package from CRAN
+# install.packages("academictwitteR")
+library(academictwitteR)
+
+# Set Bearer Token function from the academictwitteR package.
+# set_bearer()
+```
+
+## Collecting Tweets
+
+We are going to use the most common function within academictwitteR, which is "get_all_tweets." Most functions have options that you can use or choose not to use. Here is an example of all the options you have for get_all_tweets:
+
+get_all_tweets( <br>
+  query = NULL, <br>
+  start_tweets, <br>
+  end_tweets, <br>
+  bearer_token = get_bearer(), <br>
+  n = 100, <br>
+  file = NULL, <br>
+  data_path = NULL, <br>
+  export_query = TRUE, <br>
+  bind_tweets = TRUE, <br>
+  page_n = 500, <br>
+  context_annotations = FALSE, <br>
+  verbose = TRUE,<br>
+...
+)
+
+As you can see, we have the ability to specify our search via a query, set a date beginning or end, the number of tweets we want, where we want to send the data, and more! Let's go over an example:
+
+```{r warning=FALSE}
+ get_all_tweets(
+  query = "Saint Patrick's Day", # keyword search (what are some keywords that align with important dates?)
+  start_tweets = "2021-03-16T00:00:00Z",
+  end_tweets = "2021-03-18T00:00:00Z",
+  n = 100, #how many tweets do you want?
+  #bearer_token = ""  already set this!
+  data_path = "example", # If you want to store the output on your computer, put a path here
+  bind_tweets = FALSE, # More on this below
+)
+
+# Here we change the format of the output of the tweets into something that is useable in R
+stpat_tweetsraw <- bind_tweets(data_path = "example", output_format = "raw")
+class(stpat_tweetsraw)
+
+# Let's take a look at the variables that we have access to from our Twitter data pull
+bind_tweets(data_path = "example", output_format = "raw") %>% 
+  names
+```
+
+Let's try changing the output format to something more human-readable. Instead of a list, let's put the tweets into a tabular format. We accomplish this by using the "tidy" output format. Tidy is "an opinionated collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures." (More here: https://www.tidyverse.org/)
+
+Essentially, it's a tried and true framework for working with data consistently.
+
+```{r warning=FALSE}
+# Here is the "tidy" version of the data:
+stpat_tidy <- bind_tweets(data_path = "example", output_format = "tidy") 
+class(stpat_tidy)
+
+# More readable, right?
+head(stpat_tidy, 5)
+```
+
+Much better!
+
+## Count Tweets
+
+So what if you didn't want to spend all of your limit on collecting tweets hoping the sample was what you wanted? Or, you wanted to get an estimate of how many tweets would be pulled for a particular query?
+
+This is where tweet counts come in.
+
+Tweet counts don't count toward your tweet cap, but they can reveal really important information.
+
+```{r warning=FALSE}
+count_all_tweets(
+  query = "tokyo", #Perhaps a hashtag analysis? What other keywords would be useful for this search method?
+  start_tweets = "2021-07-15T00:00:00Z",
+  end_tweets = "2021-08-01T00:00:00Z",
+  granularity="day")
+```
+These results show the number of tweets by the level of granularity you selected. From this information we can now narrow our search to specific days or use this to create a visualization of tweets for a particular event.
+
+## User Tweets
+
+Let's use our original get_all_tweets function and adapt it for a specific user.
+
+Try swapping out the user ID for your own or someone interesting on Twitter!
+
+```{r warning=FALSE}
+profile_tweets <-
+  get_all_tweets(
+    users = c("InfoTisayentist"),
+    start_tweets = "2021-01-01T00:00:00Z",
+    end_tweets = "2021-01-05T00:00:00Z",
+    n = 100
+  )
+
+head(profile_tweets$text, n=5)
+```
+
+## Conversation Threads
+
+Here we can see how using one query can factor into other searches. You could use a tweet or user search to identify a specific conversation that you want to dig into.
+
+Feel free to swap the conversation ID with something more interesting!
+
+```{r warning=FALSE}
+thread_tweets <-
+  get_all_tweets(
+  # Replace with Tweet ID of your choice to get replies (this ID is from the St Pat original set)
+  conversation_id = "1372265434045681666",
+  start_tweets = "2021-03-01T00:00:00Z",
+  end_tweets = "2021-03-30T00:00:00Z",
+  bind_tweets = TRUE,
+)
+
+head(thread_tweets$text, n=4 )
+```
+
+## Geo-Tagged Tweets
+
+Location is really important information. Remember when Facebook added the "checking in" feature during natural disasters? Well, we can search for Tweets that specifically have location information embedded in those tweets.
+
+Adding the "has_geo" option filters the search criteria to only the tweets with this information. 
+
+Location information can be "geo.place_id" or coordinates. If the former, then one more step is needed to convert the place code to a location (on how to do that here: https://developer.twitter.com/en/docs/twitter-api/v1/geo/places-near-location/api-reference/get-geo-reverse_geocode)
+
+```{r warning=FALSE}
+ex_geo <-
+ get_all_tweets(
+  query = "Rams", # Perhaps something more geo-dependent?
+  start_tweets = "2022-2-12T00:00:00Z",
+  end_tweets = "2022-02-14T00:00:00Z",
+  n = 100, #set an upper limit. The default is 100. 
+  has_geo = TRUE
+)
+
+head(ex_geo$text, n=5)
+
+```
+
+## User Look-Up
+
+What if you wanted metadata on a user or set of users? 
+
+Store a list of users and run the get_user_profile function!
+
+```{r warning=FALSE}
+# Replace with author IDs of your choice - these are also from the St Pat query.
+ex_userids <- c("726782599381815296", "73533164")
+
+ex_user_meta <-
+  get_user_profile(
+    ex_userids)
+
+head(ex_user_meta, n=5)
+```
+
+## Advanced Parameters
+
+There is so much more that can be covered such as the myriad of functions we didn't talk about (more here: https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/tweet) to customizing queries to all of the data cleaning after the fact. 
+
+For now, let's try something a little more specific from our original query.
+
+```{r warning=FALSE}
+adv_tweets <- 
+  get_all_tweets(
+    query = "Rams", # Perhaps something more geo-dependent?
+    start_tweets = "2022-2-12T00:00:00Z",
+    end_tweets = "2022-02-14T00:00:00Z",
+    n = 100, #set an upper limit. The default is 100. 
+    country = "US", is_verified = FALSE,  
+    lang = "en",  is_retweet = FALSE,
+    has_geo = TRUE
+)
+
+head(adv_tweets$text, n=5)
+```
+
+## Final Word
+
+Congratulations! You have overcome perhaps the most daunting hurdle in using APIs. Which would be *using an API*. It is important to remember that your queries will not always be perfect or capture exactly what you want. That's okay, there are a slew of resources on data management and cleaning that help you get to the final step which will look more like a dataset worthy of analysis.
+
+Well done and I wish you the best with your computational social science endeavors!
+
+## Resources
+
+Official Twitter API V2 developer documentation: https://developer.twitter.com/en/docs/twitter-api <br>
+Twitter API V2 Sample Code: https://github.com/twitterdev/getting-started-with-the-twitter-api-v2-for-academic-research <br>
