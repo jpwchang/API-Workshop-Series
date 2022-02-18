@@ -1,7 +1,7 @@
 ---
 title: "CCSS academictwitteR Tutorial"
 author: "Aspen Russell"
-date: "02/14/2022"
+date: "02/18/2022"
 output: 
   html_document:
     toc: true
@@ -65,12 +65,14 @@ get_all_tweets( <br>
 As you can see, we have the ability to specify our search via a query, set a date beginning or end, the number of tweets we want, where we want to send the data, and more! Let's go over an example:
 
 ```{r warning=FALSE}
- get_all_tweets(
+ 
+# Timezone: https://developer.twitter.com/en/docs/twitter-ads-api/timezones
+get_all_tweets(
   query = "Saint Patrick's Day", # keyword search (what are some keywords that align with important dates?)
   start_tweets = "2021-03-16T00:00:00Z",
   end_tweets = "2021-03-18T00:00:00Z",
   n = 100, #how many tweets do you want?
-  #bearer_token = ""  already set this!
+  #bearer_token = "",  either set this earlier or you will have to put it down every time
   data_path = "example", # If you want to store the output on your computer, put a path here
   bind_tweets = FALSE, # More on this below
 )
@@ -112,6 +114,7 @@ count_all_tweets(
   query = "tokyo", #Perhaps a hashtag analysis? What other keywords would be useful for this search method?
   start_tweets = "2021-07-15T00:00:00Z",
   end_tweets = "2021-08-01T00:00:00Z",
+  # bearer_token = "",
   granularity="day")
 ```
 These results show the number of tweets by the level of granularity you selected. From this information we can now narrow our search to specific days or use this to create a visualization of tweets for a particular event.
@@ -128,6 +131,7 @@ profile_tweets <-
     users = c("InfoTisayentist"),
     start_tweets = "2021-01-01T00:00:00Z",
     end_tweets = "2021-01-05T00:00:00Z",
+    # bearer_token = "",
     n = 100
   )
 
@@ -148,6 +152,8 @@ thread_tweets <-
   start_tweets = "2021-03-01T00:00:00Z",
   end_tweets = "2021-03-30T00:00:00Z",
   bind_tweets = TRUE,
+  n = 100,
+  # bearer_token = "",
 )
 
 head(thread_tweets$text, n=4 )
@@ -168,7 +174,8 @@ ex_geo <-
   start_tweets = "2022-2-12T00:00:00Z",
   end_tweets = "2022-02-14T00:00:00Z",
   n = 100, #set an upper limit. The default is 100. 
-  has_geo = TRUE
+  has_geo = TRUE,
+  # bearer_token = "",
 )
 
 head(ex_geo$text, n=5)
@@ -207,7 +214,8 @@ adv_tweets <-
     n = 100, #set an upper limit. The default is 100. 
     country = "US", is_verified = FALSE,  
     lang = "en",  is_retweet = FALSE,
-    has_geo = TRUE
+    has_geo = TRUE,
+    # bearer_token = "",
 )
 
 head(adv_tweets$text, n=5)
