@@ -72,7 +72,7 @@ get_all_tweets(
   start_tweets = "2021-03-16T00:00:00Z",
   end_tweets = "2021-03-18T00:00:00Z",
   n = 100, #how many tweets do you want?
-  #bearer_token = "",  either set this earlier or you will have to put it down every time
+  #bearer_token = "",  # either set this earlier or you will have to put it down every time
   data_path = "example", # If you want to store the output on your computer, put a path here
   bind_tweets = FALSE, # More on this below
 )

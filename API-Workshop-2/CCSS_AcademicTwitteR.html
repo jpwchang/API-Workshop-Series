@@ -360,7 +360,7 @@ div.tocify {
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">start_tweets =</span> <span class="st">&quot;2021-03-16T00:00:00Z&quot;</span>,</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">end_tweets =</span> <span class="st">&quot;2021-03-18T00:00:00Z&quot;</span>,</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">100</span>, <span class="co">#how many tweets do you want?</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#bearer_token = &quot;&quot;,  either set this earlier or you will have to put it down every time</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#bearer_token = &quot;&quot;,  # either set this earlier or you will have to put it down every time</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_path =</span> <span class="st">&quot;example&quot;</span>, <span class="co"># If you want to store the output on your computer, put a path here</span></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">bind_tweets =</span> <span class="cn">FALSE</span>, <span class="co"># More on this below</span></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
@@ -377,9 +377,9 @@ div.tocify {
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  names</span></code></pre></div>
 <pre><code>##  [1] &quot;tweet.entities.urls&quot;                 &quot;tweet.entities.annotations&quot;         
 ##  [3] &quot;tweet.entities.mentions&quot;             &quot;tweet.entities.hashtags&quot;            
-##  [5] &quot;tweet.entities.cashtags&quot;             &quot;tweet.public_metrics.retweet_count&quot; 
-##  [7] &quot;tweet.public_metrics.reply_count&quot;    &quot;tweet.public_metrics.like_count&quot;    
-##  [9] &quot;tweet.public_metrics.quote_count&quot;    &quot;tweet.attachments.media_keys&quot;       
+##  [5] &quot;tweet.entities.cashtags&quot;             &quot;tweet.attachments.media_keys&quot;       
+##  [7] &quot;tweet.public_metrics.retweet_count&quot;  &quot;tweet.public_metrics.reply_count&quot;   
+##  [9] &quot;tweet.public_metrics.like_count&quot;     &quot;tweet.public_metrics.quote_count&quot;   
 ## [11] &quot;tweet.geo.coordinates&quot;               &quot;tweet.geo.place_id&quot;                 
 ## [13] &quot;tweet.referenced_tweets&quot;             &quot;tweet.main&quot;                         
 ## [15] &quot;user.public_metrics.followers_count&quot; &quot;user.public_metrics.following_count&quot;
@@ -395,17 +395,17 @@ div.tocify {
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># More readable, right?</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(stpat_tidy, <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 5 x 31
-##   tweet_id   user_username text         source  conversation_id possibly_sensit~
-##   &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt;        &lt;chr&gt;   &lt;chr&gt;           &lt;lgl&gt;           
-## 1 137233693~ jackvbauer    &quot;Happy Sain~ Twitte~ 13723369361955~ FALSE           
-## 2 137233693~ UnionOfNone   &quot;Happy Sain~ Stream~ 13723369332932~ FALSE           
-## 3 137233692~ Budwiser160   &quot;RT @ChipsA~ Twitte~ 13723369265277~ FALSE           
-## 4 137233691~ david_the_gr8 &quot;Happy Sain~ Twitte~ 13723369150689~ FALSE           
-## 5 137233691~ animeradio    &quot;Saint Patr~ Stream~ 13723369149095~ FALSE           
-## # ... with 25 more variables: created_at &lt;chr&gt;, author_id &lt;chr&gt;, lang &lt;chr&gt;,
-## #   in_reply_to_user_id &lt;chr&gt;, user_url &lt;chr&gt;, user_name &lt;chr&gt;,
-## #   user_verified &lt;lgl&gt;, user_location &lt;chr&gt;, user_profile_image_url &lt;chr&gt;,
-## #   user_description &lt;chr&gt;, user_created_at &lt;chr&gt;, user_protected &lt;lgl&gt;,
+##   tweet_id  user_username text         conversation_id lang  source  created_at 
+##   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;        &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;      
+## 1 13723369~ jackvbauer    &quot;Happy Sain~ 13723369361955~ en    Twitte~ 2021-03-17~
+## 2 13723369~ UnionOfNone   &quot;Happy Sain~ 13723369332932~ en    Stream~ 2021-03-17~
+## 3 13723369~ Budwiser160   &quot;RT @ChipsA~ 13723369265277~ en    Twitte~ 2021-03-17~
+## 4 13723369~ david_the_gr8 &quot;Happy Sain~ 13723369150689~ en    Twitte~ 2021-03-17~
+## 5 13723369~ animeradio    &quot;Saint Patr~ 13723369149095~ en    Stream~ 2021-03-17~
+## # ... with 24 more variables: possibly_sensitive &lt;lgl&gt;, author_id &lt;chr&gt;,
+## #   in_reply_to_user_id &lt;chr&gt;, user_url &lt;chr&gt;, user_profile_image_url &lt;chr&gt;,
+## #   user_name &lt;chr&gt;, user_description &lt;chr&gt;, user_location &lt;chr&gt;,
+## #   user_protected &lt;lgl&gt;, user_verified &lt;lgl&gt;, user_created_at &lt;chr&gt;,
 ## #   user_pinned_tweet_id &lt;chr&gt;, retweet_count &lt;int&gt;, like_count &lt;int&gt;,
 ## #   quote_count &lt;int&gt;, user_tweet_count &lt;int&gt;, user_list_count &lt;int&gt;,
 ## #   user_followers_count &lt;int&gt;, user_following_count &lt;int&gt;,
@@ -428,23 +428,23 @@ div.tocify {
 ## Total pages queried: 1 (tweets captured this page: 17).
 ## This is the last page for tokyo : finishing collection.</code></pre>
 <pre><code>##                         end                    start tweet_count
-## 1  2021-07-16T00:00:00.000Z 2021-07-15T00:00:00.000Z      274197
-## 2  2021-07-17T00:00:00.000Z 2021-07-16T00:00:00.000Z      329128
-## 3  2021-07-18T00:00:00.000Z 2021-07-17T00:00:00.000Z      313100
-## 4  2021-07-19T00:00:00.000Z 2021-07-18T00:00:00.000Z      309496
-## 5  2021-07-20T00:00:00.000Z 2021-07-19T00:00:00.000Z      287730
-## 6  2021-07-21T00:00:00.000Z 2021-07-20T00:00:00.000Z      320575
-## 7  2021-07-22T00:00:00.000Z 2021-07-21T00:00:00.000Z      476218
-## 8  2021-07-23T00:00:00.000Z 2021-07-22T00:00:00.000Z      433292
-## 9  2021-07-24T00:00:00.000Z 2021-07-23T00:00:00.000Z      819398
-## 10 2021-07-25T00:00:00.000Z 2021-07-24T00:00:00.000Z      737592
-## 11 2021-07-26T00:00:00.000Z 2021-07-25T00:00:00.000Z      676060
-## 12 2021-07-27T00:00:00.000Z 2021-07-26T00:00:00.000Z      658834
-## 13 2021-07-28T00:00:00.000Z 2021-07-27T00:00:00.000Z      644985
-## 14 2021-07-29T00:00:00.000Z 2021-07-28T00:00:00.000Z      682706
-## 15 2021-07-30T00:00:00.000Z 2021-07-29T00:00:00.000Z      531471
-## 16 2021-07-31T00:00:00.000Z 2021-07-30T00:00:00.000Z      491208
-## 17 2021-08-01T00:00:00.000Z 2021-07-31T00:00:00.000Z      583914</code></pre>
+## 1  2021-07-16T00:00:00.000Z 2021-07-15T00:00:00.000Z      273969
+## 2  2021-07-17T00:00:00.000Z 2021-07-16T00:00:00.000Z      328847
+## 3  2021-07-18T00:00:00.000Z 2021-07-17T00:00:00.000Z      312728
+## 4  2021-07-19T00:00:00.000Z 2021-07-18T00:00:00.000Z      309200
+## 5  2021-07-20T00:00:00.000Z 2021-07-19T00:00:00.000Z      287377
+## 6  2021-07-21T00:00:00.000Z 2021-07-20T00:00:00.000Z      320261
+## 7  2021-07-22T00:00:00.000Z 2021-07-21T00:00:00.000Z      475793
+## 8  2021-07-23T00:00:00.000Z 2021-07-22T00:00:00.000Z      432806
+## 9  2021-07-24T00:00:00.000Z 2021-07-23T00:00:00.000Z      818718
+## 10 2021-07-25T00:00:00.000Z 2021-07-24T00:00:00.000Z      736732
+## 11 2021-07-26T00:00:00.000Z 2021-07-25T00:00:00.000Z      675205
+## 12 2021-07-27T00:00:00.000Z 2021-07-26T00:00:00.000Z      657982
+## 13 2021-07-28T00:00:00.000Z 2021-07-27T00:00:00.000Z      644276
+## 14 2021-07-29T00:00:00.000Z 2021-07-28T00:00:00.000Z      681895
+## 15 2021-07-30T00:00:00.000Z 2021-07-29T00:00:00.000Z      531032
+## 16 2021-07-31T00:00:00.000Z 2021-07-30T00:00:00.000Z      490793
+## 17 2021-08-01T00:00:00.000Z 2021-07-31T00:00:00.000Z      583449</code></pre>
 <p>These results show the number of tweets by the level of granularity you selected. From this information we can now narrow our search to specific days or use this to create a visualization of tweets for a particular event.</p>
 </div>
 <div id="user-tweets" class="section level2">
@@ -524,33 +524,33 @@ div.tocify {
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    ex_userids)</span></code></pre></div>
 <pre><code>## Processing from 1 to 2</code></pre>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ex_user_meta, <span class="at">n=</span><span class="dv">5</span>)</span></code></pre></div>
-<pre><code>##                                                                                                         urls
-## 1 0, 23, https://t.co/LiSPX4kCMH, http://www.facebook.com/dohenyladiesfootball, facebook.com/dohenyladiesfo…
-## 2                                                                                                       NULL
-##                                                                                                                                                 description
-## 1                                                                                                  Official Twitter account for Doheny Ladies Football Club
-## 2 Conto até 4 e dou uns pitacos. Carioca da Gema, Tijucano, Manezinho por adoção, Cervejeiro, Cozinheiro e Harmonizador. Flamengo (dizem que não) e Lakers.
-##                   id              name            location verified
-## 1 726782599381815296 Doheny Ladies GFC Dunmanway, Co. Cork    FALSE
-## 2           73533164          CP Gomes                &lt;NA&gt;    FALSE
-##                       url        username protected
-## 1 https://t.co/LiSPX4kCMH DohenyLadiesGFC     FALSE
-## 2                               eucpgomes     FALSE
-##   public_metrics.followers_count public_metrics.following_count
-## 1                            620                            223
-## 2                            987                           1008
-##   public_metrics.tweet_count public_metrics.listed_count
-## 1                       2437                           1
-## 2                      84121                          11
-##                 created_at
-## 1 2016-05-01T14:37:29.000Z
-## 2 2009-09-12T01:03:04.000Z
+<pre><code>##                name
+## 1 Doheny Ladies GFC
+## 2          CP Gomes
 ##                                                              profile_image_url
 ## 1  https://pbs.twimg.com/profile_images/726784033905061888/30dlzZsN_normal.jpg
 ## 2 https://pbs.twimg.com/profile_images/1461751337226493953/LMFFvSBo_normal.jpg
-##       pinned_tweet_id
-## 1                &lt;NA&gt;
-## 2 1483037477862612992</code></pre>
+##   public_metrics.followers_count public_metrics.following_count
+## 1                            620                            223
+## 2                            988                           1008
+##   public_metrics.tweet_count public_metrics.listed_count
+## 1                       2439                           1
+## 2                      84200                          11
+##                                                                                                                                                 description
+## 1                                                                                                  Official Twitter account for Doheny Ladies Football Club
+## 2 Conto até 4 e dou uns pitacos. Carioca da Gema, Tijucano, Manezinho por adoção, Cervejeiro, Cozinheiro e Harmonizador. Flamengo (dizem que não) e Lakers.
+##   protected                     url
+## 1     FALSE https://t.co/LiSPX4kCMH
+## 2     FALSE                        
+##                                                                                                         urls
+## 1 0, 23, https://t.co/LiSPX4kCMH, http://www.facebook.com/dohenyladiesfootball, facebook.com/dohenyladiesfo…
+## 2                                                                                                       NULL
+##              location               created_at        username
+## 1 Dunmanway, Co. Cork 2016-05-01T14:37:29.000Z DohenyLadiesGFC
+## 2                &lt;NA&gt; 2009-09-12T01:03:04.000Z       eucpgomes
+##                   id verified     pinned_tweet_id
+## 1 726782599381815296    FALSE                &lt;NA&gt;
+## 2           73533164    FALSE 1483037477862612992</code></pre>
 </div>
 <div id="advanced-parameters" class="section level2">
 <h2>Advanced Parameters</h2>
@@ -568,7 +568,7 @@ div.tocify {
 <span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bearer_token = &quot;&quot;,</span></span>
 <span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>## query:  Rams -is:retweet -is:verified has:geo place_country:US lang:en 
-## Total pages queried: 1 (tweets captured this page: 500).
+## Total pages queried: 1 (tweets captured this page: 499).
 ## Total tweets captured now reach 100 : finishing collection.</code></pre>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(adv_tweets<span class="sc">$</span>text, <span class="at">n=</span><span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;One of the many reasons I&#39;m a RAMS fan!! https://t.co/lc8IbxOE0L&quot;           
