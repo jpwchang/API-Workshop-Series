@@ -1,2 +1,2 @@
 install.packages("tidyverse")
-install.packages("academictwitter")
+install.packages("academictwitteR")
