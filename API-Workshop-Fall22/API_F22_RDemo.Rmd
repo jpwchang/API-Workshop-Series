@@ -68,9 +68,9 @@ As you can see, we have the ability to specify our search via a query, set a dat
  
 # Timezone: https://developer.twitter.com/en/docs/twitter-ads-api/timezones
 get_all_tweets(
-  query = "Saint Patrick's Day", # keyword search (what are some keywords that align with important dates?)
-  start_tweets = "2021-03-16T00:00:00Z",
-  end_tweets = "2021-03-18T00:00:00Z",
+  query = "Halloween", # keyword search (what are some keywords that align with important dates?)
+  start_tweets = "2021-10-24T00:00:00Z",
+  end_tweets = "2021-10-31T00:00:00Z",
   n = 100, #how many tweets do you want?
   #bearer_token = "",  # either set this earlier or you will have to put it down every time
   data_path = "example", # If you want to store the output on your computer, put a path here
@@ -111,13 +111,15 @@ Tweet counts don't count toward your tweet cap, but they can reveal really impor
 
 ```{r warning=FALSE}
 count_all_tweets(
-  query = "tokyo", #Perhaps a hashtag analysis? What other keywords would be useful for this search method?
-  start_tweets = "2021-07-15T00:00:00Z",
-  end_tweets = "2021-08-01T00:00:00Z",
+  query = "#vote", # let's try a hashtag analysis
+  start_tweets = "2020-10-15T00:00:00Z",
+  end_tweets = "2020-11-15T00:00:00Z",
   # bearer_token = "",
-  granularity="day")
+  granularity="day") # tell the API to count number of tweets per day (can also do hour or minute).
 ```
 These results show the number of tweets by the level of granularity you selected. From this information we can now narrow our search to specific days or use this to create a visualization of tweets for a particular event.
+
+From these results, we can see how something as simple as a tweet count can already reveal interesting phenomena. In this case, the number of tweets per day mentioning the hashtag #vote seems to rise starting around the end of October 2020, peaking between November 3rd and 4th and then dropping sharply after that. Why do you think this is?
 
 ## User Tweets
 
@@ -128,9 +130,9 @@ Try swapping out the user ID for your own or someone interesting on Twitter!
 ```{r warning=FALSE}
 profile_tweets <-
   get_all_tweets(
-    users = c("InfoTisayentist"),
-    start_tweets = "2021-01-01T00:00:00Z",
-    end_tweets = "2021-01-05T00:00:00Z",
+    users = c("pete_enns"),
+    start_tweets = "2020-10-15T00:00:00Z",
+    end_tweets = "2020-10-22T00:00:00Z",
     # bearer_token = "",
     n = 100
   )
@@ -147,10 +149,10 @@ Feel free to swap the conversation ID with something more interesting!
 ```{r warning=FALSE}
 thread_tweets <-
   get_all_tweets(
-  # Replace with Tweet ID of your choice to get replies (this ID is from the St Pat original set)
-  conversation_id = "1372265434045681666",
-  start_tweets = "2021-03-01T00:00:00Z",
-  end_tweets = "2021-03-30T00:00:00Z",
+  # Replace with Tweet ID of your choice to get replies (this ID is from the Halloween original set)
+  conversation_id = "1454363540245069827",
+  start_tweets = "2021-10-24T00:00:00Z",
+  end_tweets = "2021-10-31T00:00:00Z",
   bind_tweets = TRUE,
   n = 100,
   # bearer_token = "",
@@ -170,33 +172,16 @@ Location information can be "geo.place_id" or coordinates. If the former, then o
 ```{r warning=FALSE}
 ex_geo <-
  get_all_tweets(
-  query = "Rams", # Perhaps something more geo-dependent?
-  start_tweets = "2022-2-12T00:00:00Z",
-  end_tweets = "2022-02-14T00:00:00Z",
-  n = 100, #set an upper limit. The default is 100. 
+  query = "#vote", # what if we want to find #vote tweets from specific cities/counties? maybe they are geotagged...
+  start_tweets = "2020-11-03T00:00:00Z",
+  end_tweets = "2020-11-04T00:00:00Z",
+  n = 20, #set an upper limit. The default is 100. 
   has_geo = TRUE,
   # bearer_token = "",
 )
 
 head(ex_geo$text, n=5)
 
-```
-
-## User Look-Up
-
-What if you wanted metadata on a user or set of users? 
-
-Store a list of users and run the get_user_profile function!
-
-```{r warning=FALSE}
-# Replace with author IDs of your choice - these are also from the St Pat query.
-ex_userids <- c("726782599381815296", "73533164")
-
-ex_user_meta <-
-  get_user_profile(
-    ex_userids)
-
-head(ex_user_meta, n=5)
 ```
 
 ## Advanced Parameters
@@ -208,11 +193,11 @@ For now, let's try something a little more specific from our original query.
 ```{r warning=FALSE}
 adv_tweets <- 
   get_all_tweets(
-    query = "Rams", # Perhaps something more geo-dependent?
-    start_tweets = "2022-2-12T00:00:00Z",
-    end_tweets = "2022-02-14T00:00:00Z",
-    n = 100, #set an upper limit. The default is 100. 
-    country = "US", is_verified = FALSE,  
+    query = "#vote", 
+    start_tweets = "2020-11-03T00:00:00Z",
+    end_tweets = "2020-11-04T00:00:00Z",
+    n = 20, #set an upper limit. The default is 100. 
+    place = "ithaca", is_verified = FALSE,  
     lang = "en",  is_retweet = FALSE,
     has_geo = TRUE,
     # bearer_token = "",
