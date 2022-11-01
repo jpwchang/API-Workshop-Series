@@ -1,7 +1,0 @@
-https://api.pushshift.io/reddit/search/comment/
-
-https://api.pushshift.io/reddit/search/comment/?q=Cornell
-
-https://api.pushshift.io/reddit/search/comment/?q=Cornell&subreddit=ApplyingToCollege
-
-https://api.pushshift.io/reddit/search/comment/?q=Cornell&subreddit=ApplyingToCollege&after=2021-06-01&before=2021-09-01
